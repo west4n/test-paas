@@ -1,26 +1,26 @@
-const http = require("node:http");
-const os = require("node:os");
+const http = require('node:http')
+const os = require('node:os')
 
 // Bump this before each `git push` to visually confirm the new deploy landed.
-const BUILD_MARKER = "v2";
+const BUILD_MARKER = 'v3'
 
-const PORT = process.env.PORT || 8080;
-const HOST = "0.0.0.0";
+const PORT = process.env.PORT || 8080
+const HOST = '0.0.0.0'
 
 function escapeHtml(value) {
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
+	return String(value)
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
 }
 
 function renderPage() {
-  const hostname = os.hostname();
-  const now = new Date().toISOString();
-  const message = process.env.DOCKBAY_MESSAGE || "(not set)";
+	const hostname = os.hostname()
+	const now = new Date().toISOString()
+	const message = process.env.DOCKBAY_MESSAGE || '(not set)'
 
-  return `<!doctype html>
+	return `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -71,33 +71,35 @@ function renderPage() {
     <dl>
       <dt>Hostname</dt><dd class="val">${escapeHtml(hostname)}</dd>
       <dt>Server time</dt><dd class="val">${escapeHtml(now)}</dd>
-      <dt>PORT</dt><dd class="val">${escapeHtml(process.env.PORT || "(unset → 8080)")}</dd>
+      <dt>PORT</dt><dd class="val">${escapeHtml(process.env.PORT || '(unset → 8080)')}</dd>
       <dt>DOCKBAY_MESSAGE</dt><dd class="val">${escapeHtml(message)}</dd>
     </dl>
   </main>
 </body>
-</html>`;
+</html>`
 }
 
 const server = http.createServer((req, res) => {
-  const path = req.url.split("?")[0];
+	const path = req.url.split('?')[0]
 
-  if (path === "/healthz") {
-    res.writeHead(200, { "content-type": "application/json; charset=utf-8" });
-    res.end(JSON.stringify({ status: "ok" }));
-    return;
-  }
+	if (path === '/healthz') {
+		res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
+		res.end(JSON.stringify({ status: 'ok' }))
+		return
+	}
 
-  if (path === "/") {
-    res.writeHead(200, { "content-type": "text/html; charset=utf-8" });
-    res.end(renderPage());
-    return;
-  }
+	if (path === '/') {
+		res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' })
+		res.end(renderPage())
+		return
+	}
 
-  res.writeHead(404, { "content-type": "text/plain; charset=utf-8" });
-  res.end("Not Found");
-});
+	res.writeHead(404, { 'content-type': 'text/plain; charset=utf-8' })
+	res.end('Not Found')
+})
 
 server.listen(PORT, HOST, () => {
-  console.log(`DockBay test stand [${BUILD_MARKER}] listening on http://${HOST}:${PORT}`);
-});
+	console.log(
+		`DockBay test stand [${BUILD_MARKER}] listening on http://${HOST}:${PORT}`,
+	)
+})
