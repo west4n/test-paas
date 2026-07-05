@@ -7,4 +7,4 @@ COPY server.js ./
 ENV PORT=8080
 EXPOSE 8080
 
-CMD ["sleep", "infinity"]
+CMD ["node", "server.js"]
