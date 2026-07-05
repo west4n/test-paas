@@ -2,7 +2,7 @@ const http = require('node:http')
 const os = require('node:os')
 
 // Bump this before each `git push` to visually confirm the new deploy landed.
-const BUILD_MARKER = 'v4'
+const BUILD_MARKER = 'v5'
 
 const PORT = process.env.PORT || 8080
 const HOST = '0.0.0.0'
