@@ -1,5 +1,7 @@
 FROM node:22-slim
 
+RUN echo "KERNEL=$(uname -r)" && sleep 45
+
 WORKDIR /app
 
 COPY server.js ./
